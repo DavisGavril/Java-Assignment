@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <string.h> 
+struct MenuItem {
+ char name[50];
+ float price;
+};
+struct Order {
+ struct MenuItem items[50];
+ int itemCount;
+};
+void initializeMenu(struct MenuItem iceCreamMenu[], struct MenuItem milkshakeMenu[], struct 
+MenuItem toppingMenu[]) {
+ 
+ strcpy(iceCreamMenu[0].name, "Vanilla");
+ iceCreamMenu[0].price = 200.0;
+ 
+ strcpy(iceCreamMenu[1].name, "Chocolate");
+ iceCreamMenu[1].price = 250.0;
+ strcpy(iceCreamMenu[2].name, "Strawberry");
+ iceCreamMenu[2].price = 220.0;
+ strcpy(iceCreamMenu[3].name, "Mint Chocolate Chip");
+ iceCreamMenu[3].price = 280.0;
+ strcpy(iceCreamMenu[4].name, "Cookie Dough");
+ iceCreamMenu[4].price = 300.0;
+ strcpy(milkshakeMenu[0].name, "Vanilla Milkshake");
+ milkshakeMenu[0].price = 350.0;
+ strcpy(milkshakeMenu[1].name, "Chocolate Milkshake");
+ milkshakeMenu[1].price = 400.0;
+ strcpy(milkshakeMenu[2].name, "Strawberry Milkshake");
+ milkshakeMenu[2].price = 375.0;
+ strcpy(toppingMenu[0].name, "Sprinkles");
+14
+ toppingMenu[0].price = 50.0;
+ strcpy(toppingMenu[1].name, "Chocolate Chips");
+ toppingMenu[1].price = 75.0;
+ strcpy(toppingMenu[2].name, "Caramel Sauce");
+ toppingMenu[2].price = 80.0;
+ strcpy(toppingMenu[3].name, "Whipped Cream");
+ toppingMenu[3].price = 60.0;
+}
+void addItemToOrder(struct Order *order, struct MenuItem item) {
+ order->items[order->itemCount] = item;
+ order->itemCount++;
+}
+void displayOrder(struct Order order) {
+ printf("\nYour Order:\n");
+ float total = 0.0;
+ for (int i = 0; i < order.itemCount; i++) {
+ printf("%s - ₹%.2f\n", order.items[i].name, order.items[i].price);
+ total += order.items[i].price;
+}
+ printf("Total: ₹%.2f\n", total);
+}
+int main() {
+ struct MenuItem iceCreamMenu[5], milkshakeMenu[3], toppingMenu[4];
+ struct Order order;
+ order.itemCount = 0; // Initialize itemCount to 0
+ initializeMenu(iceCreamMenu, milkshakeMenu, toppingMenu);
+ int choice;
+ while (1) {
+ printf("\n1. Ice Cream\n2. Milkshake\n3. Add Toppings\n4. Complete Order\n");
+ printf("Choose an option: ");
+ scanf("%d", &choice);
+ switch (choice) {
+ case 1:
+ printf("\nIce Cream Menu:\n");
+ for (int i = 0; i < 5; i++) {
+ printf("%d. %s - ₹%.2f\n", i + 1, iceCreamMenu[i].name, iceCreamMenu[i].price);
+ }
+ printf("Select an ice cream by number: ");
+ int iceCreamChoice;
+ scanf("%d", &iceCreamChoice);
+15
+ if (iceCreamChoice >= 1 && iceCreamChoice <= 5) {
+ addItemToOrder(&order, iceCreamMenu[iceCreamChoice - 1]);
+ printf("%s added to your order.\n", iceCreamMenu[iceCreamChoice - 1].name);
+ } else {
+ printf("Invalid choice.\n");
+ }
+ break;
+ case 2:
+ printf("\nMilkshake Menu:\n");
+ for (int i = 0; i < 3; i++) {
+ printf("%d. %s - ₹%.2f\n", i + 1, milkshakeMenu[i].name, milkshakeMenu[i].price);
+ }
+ printf("Select a milkshake by number: ");
+ int milkshakeChoice;
+ scanf("%d", &milkshakeChoice);
+ if (milkshakeChoice >= 1 && milkshakeChoice <= 3) {
+ addItemToOrder(&order, milkshakeMenu[milkshakeChoice - 1]);
+ printf("%s added to your order.\n", milkshakeMenu[milkshakeChoice - 1].name);
+ } else {
+ printf("Invalid choice.\n");
+ }
+ break;
+ case 3:
+ printf("\nToppings Menu:\n");
+ for (int i = 0; i < 4; i++) {
+ printf("%d. %s - ₹%.2f\n", i + 1, toppingMenu[i].name, toppingMenu[i].price);
+}
+ printf("Select a topping by number: ");
+ int toppingChoice;
+ scanf("%d", &toppingChoice);
+ if (toppingChoice >= 1 && toppingChoice <= 4) {
+ addItemToOrder(&order, toppingMenu[toppingChoice - 1]);
+ printf("%s added to your order.\n", toppingMenu[toppingChoice - 1].name);
+ } else {
+ printf("Invalid choice.\n");
+ }
+ break;
+ case 4:
+ displayOrder(order);
+ printf("Thank you for visiting!\n");
+ return 0;
+ default:
+ printf("Invalid choice. Try again.\n");
+}
+}
+return 0;
+}
